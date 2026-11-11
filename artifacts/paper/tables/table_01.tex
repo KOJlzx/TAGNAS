@@ -1,0 +1,22 @@
+\begin{tabular}{l|c|c|c|c|c|p{4.9cm}}
+\hline
+\textbf{System} & \textbf{GNN on} & \textbf{LM on} & \textbf{Cont.} & \textbf{Sync.} & \textbf{GNN arch.} & \multicolumn{1}{c}{\textbf{Drawbacks}}\\
+\hline
+NeutronStar~\cite{neutronstar} & Multi-GPU & N/A & N/A & N/A & Fixed & \multirow{6}{=}{Designed for one model, not for two models that exchange embeddings.}\\
+NeutronOrch~\cite{neutronorch} & CPU, GPU & N/A & N/A & N/A & Fixed & \\
+PyTorch DDP~\cite{ddp} (B2) & N/A & Multi-GPU & N/A & N/A & N/A & \\
+FSDP~\cite{fsdp} & N/A & Multi-GPU & N/A & N/A & N/A & \\
+Galvatron~\cite{galvatron} & N/A & Multi-GPU & N/A & N/A & N/A & \\
+ZeRO-Offload~\cite{zero} (B3) & N/A & GPU, CPU & N/A & N/A & N/A & \\
+\hline
+ConGraT~\cite{congrat} (B1) & GPU & Same GPU & High & High & Fixed & \multirow{3}{=}{Both models share GPUs and contend for memory; the faster model waits for the slower one; fixed GNN.}\\
+GraphFormers~\cite{graphformers} & GPU & Same GPU & High & High & Fixed & \\
+UniTG~\cite{unitg} (B4) & Multi-GPU & Same GPUs & High & Medium & Fixed & \\
+\hline
+PSP~\cite{psp} & GPU & N/A & N/A & N/A & Searched, pruned & \multirow{3}{=}{Search the GNN without training an LM; the LM, if used, stays frozen.}\\
+FastGNAS~\cite{fastgnas} & Multi-GPU & N/A & N/A & N/A & Searched & \\
+DSA-GNAS~\cite{dsagnas} & GPU & Frozen & N/A & N/A & Searched & \\
+\hline
+\texttt{TAGNAS} (Ours) & CPU & Multi-GPU & Low & Low & Searched, pruned & \multicolumn{1}{c}{Low contention, no waiting}\\
+\hline
+\end{tabular}

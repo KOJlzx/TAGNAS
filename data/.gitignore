@@ -1,0 +1,16 @@
+embeds/
+embeds-single/
+*/*.pkl
+
+split-node-ids/
+svd-initial-vectors/
+
+*/raw/  
+!pubmed/raw/
+!pubmed/raw/**
+!trex/raw/
+!trex/raw/**
+cora/orig/
+cora/*.csv
+# trex/
+# cora/

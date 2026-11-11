@@ -1,0 +1,147 @@
+seed_everything: 2969591811
+
+data:
+    class_path: clip_graph.data.gassodatamodule.PubmedGraphTextDataModule
+    init_args:
+        data_dir: 'data/pubmed'
+        seed: ${seed_everything}
+        mlm: false
+        batch_size: 1
+        num_workers: 1
+        pin_memory: true
+
+        # should match what's used below for lm_name or fine-tuned checkpoint
+        # LinkBERT-base: BERT encoder (hidden 768, matches embed_dim), used as an
+        # alternative text encoder to distilgpt2 for the encoder-robustness study.
+        tokenizer_name: 'michiyasunaga/LinkBERT-base'
+
+        transductive: false
+        transductive_identity_features: false
+
+        # Max number of texts kept per node (0 = unlimited).
+        # On large graphs, hub nodes can have up to ~13K associated texts; leaving
+        # this unbounded makes BatchGraphTextDataset.refresh_dataset_indices build a
+        # [N_nodes, 13402] padding matrix (~27GB).
+        # 5 is already enough for contrastive learning and shrinks the padding
+        # matrix back to [N_nodes, 5] (~10MB).
+        max_texts_per_node: 5
+# ckpt_path: lightning_logs/clip-graph/inductive-causal/pubmed/version_13/checkpoints/epoch=5-step=55122.ckpt
+model:
+    class_path: clip_graph.gassolit.LitClipGraph
+    init_args:
+        embed_dim: 768
+        dropout: 0.3
+        tau_init: 3.5
+        max_tau: 4.605  # ~= ln(100)
+        # cycle_length_steps: 1022  # number of batch_size batches in dataset
+        cycle_length_steps: null  # doesn't actually seem to help
+
+        sim_smoothing: 0.0
+        sim_weights: null
+
+        # we do this handling of class name and init arguments ourselves rather
+        # than use jsonargparse's class_path and init_args so that the
+        # models can log their arguments without saving gigantic binary objects
+        gnn_class_name: 'GassoSpace'
+
+        gnn_node_features_keys:
+            - 'graph_x'
+
+        gnn_params:
+            # what's the input data like? has to match data
+            in_channels: 768  # input feature vector dims, inductive or transductive
+
+            # this goes with transductive_identity_features above: if that's
+            # set to true, the idea is that each node's feature is just its
+            # index, and we learn an arbitrary embedding for each node in the
+            # first layer of the graph model, in which case we have to tell it
+            # how many nodes there are in the whole graph
+            # num_nodes: 8721  # only usable if transductive
+
+            hidden_channels: 64
+            num_layers: 3
+            dropout: 0.3
+            training: true
+            ops: ['gat', 'gat_2h', 'gat_4h', 'gcn', 'gin', 'sage', 'linear']
+
+        lm_name: 'michiyasunaga/LinkBERT-base'
+        lm_pooling_mode: 'mean'
+        lm_normalize: true
+
+        # this is a numerical stability kludge if needed
+        lm_layernorm_eps: null  # null = don't change LayerNorms' eps
+
+        debug_checks: false  # disable NaN/Inf assertions to avoid occasional fp16 jitter / assertion crashes on large graphs
+
+        lr: 1.0e-4
+        weight_decay: 0.0
+        eps: 1.0e-4  # this fairly high value helps with numerical stability
+        betas:
+            - 0.9
+            - 0.999
+
+trainer:
+    enable_checkpointing: true
+    callbacks:
+        - class_path: clip_graph.data.callbacks.RebuildContrastiveDataset
+
+        - class_path: pytorch_lightning.callbacks.LearningRateMonitor
+
+        - class_path: pytorch_lightning.callbacks.DeviceStatsMonitor
+
+    #
+    # Hardware selection
+    #
+
+    num_nodes: 1
+    accelerator: 'gpu'
+    devices: [0]
+
+    # strategy:
+    #     class_path: pytorch_lightning.strategies.DDPStrategy
+    #     init_args:
+    #         process_group_backend: 'nccl'
+    #         find_unused_parameters: false  # matches the previous setting
+
+
+    #
+    # Mixed precision training
+    #
+
+    precision: 16
+
+    #
+    # Logging
+    #
+
+    log_every_n_steps: 10
+    enable_model_summary: true
+    enable_progress_bar: true
+
+    logger:
+        class_path: pytorch_lightning.loggers.tensorboard.TensorBoardLogger
+        init_args:
+            save_dir: 'lightning_logs/clip-graph/inductive-causal/'
+            name: 'pubmed'
+            default_hp_metric: false
+            log_graph: false
+
+    #
+    # Debugging features
+    #
+
+    deterministic: false  # GATConv has no deterministic implementation
+    detect_anomaly: false
+
+    #
+    # Limits on epochs/steps/batches/time
+    #
+
+    max_epochs: 8
+    min_epochs: 2
+
+    #
+    # Optimization details
+    #
+
+    accumulate_grad_batches: 1

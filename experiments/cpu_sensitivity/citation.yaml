@@ -1,0 +1,78 @@
+seed_everything: 42
+data:
+  class_path: clip_graph.data.gassodatamodule.PubmedGraphTextDataModule
+  init_args:
+    data_dir: data/citation
+    seed: 42
+    mlm: false
+    batch_size: 1
+    num_workers: 1
+    pin_memory: true
+    tokenizer_name: distilgpt2
+    transductive: false
+    transductive_identity_features: false
+    max_texts_per_node: 5
+model:
+  class_path: clip_graph.gassolit.LitClipGraph
+  init_args:
+    embed_dim: 768
+    dropout: 0.3
+    tau_init: 3.5
+    max_tau: 4.605
+    cycle_length_steps: null
+    sim_smoothing: 0.0
+    sim_weights: null
+    gnn_class_name: GassoSpace
+    gnn_node_features_keys:
+    - graph_x
+    gnn_params:
+      in_channels: 768
+      hidden_channels: 64
+      num_layers: 3
+      dropout: 0.3
+      training: true
+      ops:
+      - gat
+      - gat_2h
+      - gat_4h
+      - gcn
+      - gin
+      - sage
+      - linear
+    lm_name: distilgpt2
+    lm_pooling_mode: mean
+    lm_normalize: true
+    lm_layernorm_eps: null
+    debug_checks: false
+    lr: 0.0001
+    weight_decay: 0.0
+    eps: 0.0001
+    betas:
+    - 0.9
+    - 0.999
+trainer:
+  enable_checkpointing: true
+  callbacks:
+  - class_path: clip_graph.data.callbacks.RebuildContrastiveDataset
+  - class_path: pytorch_lightning.callbacks.LearningRateMonitor
+  - class_path: pytorch_lightning.callbacks.DeviceStatsMonitor
+  num_nodes: 1
+  accelerator: gpu
+  devices:
+  - 0
+  precision: 32
+  log_every_n_steps: 10
+  enable_model_summary: true
+  enable_progress_bar: true
+  logger:
+    class_path: pytorch_lightning.loggers.tensorboard.TensorBoardLogger
+    init_args:
+      save_dir: lightning_logs/clip-graph/inductive-causal/
+      name: pubmed
+      default_hp_metric: false
+      log_graph: false
+  deterministic: false
+  detect_anomaly: false
+  max_epochs: 8
+  min_epochs: 2
+  accumulate_grad_batches: 1

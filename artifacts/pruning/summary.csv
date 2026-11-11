@@ -1,0 +1,3 @@
+condition,measured_points,initial_active_candidates,final_active_candidates,mean_cell_fb_ms,final_cell_fb_ms,mean_activation_percent,final_activation_percent
+pruning,101,45,26,81.8566031408782,31.684608459472656,72.69542477931411,17.617536464647184
+no_pruning,101,45,45,103.37579066210454,103.26733016967773,100.0,100.0

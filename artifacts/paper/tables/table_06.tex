@@ -1,0 +1,12 @@
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}llll@{}}
+\toprule
+\textbf{Dataset} & \textbf{Layer 1} & \textbf{Layer 2} & \textbf{Layer 3}\\
+\midrule
+T-REx & gin & gin & gin\\
+PubMed & gin$\cdot$ln$\cdot$relu & gat\_2h$\cdot$relu & gin$\cdot$relu\\
+Twitter & gat$\cdot$ln$\cdot$gelu & gat\_2h$\cdot$gelu & gin$\cdot$gelu\\
+Citation & gin & gin$\cdot$relu & gin$\cdot$ln\\
+Amazon-Baby & gat\_2h$\cdot$gelu & gin & gin$\cdot$elu\\
+Reddit & gat$\cdot$ln$\cdot$relu & gat\_4h$\cdot$elu & gin$\cdot$relu\\
+\bottomrule
+\end{tabular*}

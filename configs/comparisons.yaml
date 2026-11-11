@@ -1,0 +1,34 @@
+baselines:
+  twitter_causal_lm_baseline: &tw_causal_lm_baseline  test-text-anonymous_clip-graph_lightning_logs_lm-pretrain_twitter-small_causal_version_1.pt
+  trex_causal_lm_baseline   : &tr_causal_lm_baseline  test-text-anonymous_clip-graph_lightning_logs_lm-pretrain_trex_causal_version_1.pt
+  pubmed_causal_lm_baseline : &pm_causal_lm_baseline  test-text-home_anon_anon_congrat_lightning_logs_lm-pretrain_pubmed_causal_version_6.pt
+
+  twitter_masked_lm_baseline: &tw_masked_lm_baseline  test-text-anonymous_clip-graph_lightning_logs_lm-pretrain_twitter-small_masked_version_1.pt
+  trex_masked_lm_baseline   : &tr_masked_lm_baseline  test-text-anonymous_clip-graph_lightning_logs_lm-pretrain_trex_masked_version_1.pt
+  pubmed_masked_lm_baseline : &pm_masked_lm_baseline  test-text-anonymous_clip-graph_lightning_logs_lm-pretrain_pubmed_masked_version_1.pt
+
+  twitter_svd_directed      : &tw_directed_gnn_baseline   test-graph-anonymous_clip-graph_lightning_logs_gnn-pretrain-directed_twitter-small_version_3.pt
+  twitter_svd_undirected    : &tw_undirected_gnn_baseline test-graph-anonymous_clip-graph_lightning_logs_gnn-pretrain_twitter-small_version_3.pt
+  trex_svd_directed         : &tr_directed_gnn_baseline   test-graph-anonymous_clip-graph_lightning_logs_gnn-pretrain-directed_trex_version_5.pt
+  trex_svd_undirected       : &tr_undirected_gnn_baseline test-graph-anonymous_clip-graph_lightning_logs_gnn-pretrain_trex_version_5.pt
+  pubmed_svd_directed       : &pm_directed_gnn_baseline   test-graph-anonymous_clip-graph_lightning_logs_gnn-pretrain-directed_pubmed_version_5.pt
+  pubmed_svd_undirected     : &pm_undirected_gnn_baseline test-graph-home_anon_anon_congrat_lightning_logs_gnn-pretrain_pubmed_version_2.pt
+
+
+pubmed:
+  causal_undirected:
+    dataset_yaml_path: configs/eval-datasets/pubmed/causal.yaml
+    comparisons:
+      - slug: pubmed-test-causal-base
+        comp_texts: *pm_causal_lm_baseline
+        comp_nodes: *pm_undirected_gnn_baseline
+        trained_texts: test-text-home_anon_anon_congrat_lightning_logs_clip-graph_inductive-causal_pubmed_version_15.pt
+        trained_nodes: test-graph-home_anon_anon_congrat_lightning_logs_clip-graph_inductive-causal_pubmed_version_15.pt
+
+      - slug: pubmed-test-causal-sim10
+        comp_texts: *pm_causal_lm_baseline
+        comp_nodes: *pm_undirected_gnn_baseline
+        trained_texts: test-text-home_anon_anon_congrat_lightning_logs_clip-graph_inductive-causal_pubmed_version_15.pt
+        trained_nodes: test-graph-home_anon_anon_congrat_lightning_logs_clip-graph_inductive-causal_pubmed_version_15.pt
+
+  

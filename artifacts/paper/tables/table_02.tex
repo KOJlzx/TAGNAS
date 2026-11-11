@@ -1,0 +1,15 @@
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}llll@{}}
+\toprule
+\textbf{Data} & \textbf{Size} & \textbf{Written by} & \textbf{Read by}\\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Host memory (CPU)}}\\
+Graph, features & $O(|\mathcal{E}|{+}n d_x)$ & Loaded once & Graph eng.\\
+$\mathbf{w}$, $\boldsymbol{\alpha}$ & $|\mathbf{w}|{+}$\,\#candidates & Graph eng., Pruning Ctrl. & Graph eng.\\
+Activations & ${\propto}$\,\#candidates & Graph eng. & Graph eng.\\
+Text cache $\mathcal{C}_{T}$ & $n d$ & LM eng. & Graph eng.\\
+\midrule
+\multicolumn{4}{@{}l}{\textit{GPU memory}}\\
+$\boldsymbol{\theta}$, optimizer states & $O(|\boldsymbol{\theta}|)$ & LM eng. & LM eng.\\
+Graph cache $\mathcal{C}_{G}$ & $n d$ & Graph eng. & LM eng.\\
+\bottomrule
+\end{tabular*}

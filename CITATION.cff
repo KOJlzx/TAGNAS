@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "Please cite the accompanying TAGNAS manuscript and this repository when using this software."
+type: software
+title: "TAGNAS: Scaling Neural Architecture Search on Text-Attributed Graphs via Heterogeneous CPU–GPU Data Processing"
+authors:
+  - family-names: Li
+    given-names: Zaixi
+    orcid: "https://orcid.org/0009-0008-9958-6991"
+  - family-names: Song
+    given-names: Zhen
+    orcid: "https://orcid.org/0009-0004-8737-2727"
+  - family-names: Gu
+    given-names: Yu
+    orcid: "https://orcid.org/0000-0001-7422-6254"
+  - family-names: Li
+    given-names: Yushuai
+    orcid: "https://orcid.org/0000-0002-3043-3777"
+  - family-names: Cui
+    given-names: Lizhen
+    orcid: "https://orcid.org/0000-0002-8262-8883"
+  - family-names: Li
+    given-names: Tianyi
+    orcid: "https://orcid.org/0000-0001-5424-6442"
+repository-code: "https://github.com/KOJlzx/TAGNAS"
+url: "https://github.com/KOJlzx/TAGNAS"
+license: MIT

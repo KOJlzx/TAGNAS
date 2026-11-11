@@ -1,0 +1,2 @@
+experiments/cpu_sensitivity/common.py -whitespace
+artifacts/pruning/*.csv whitespace=cr-at-eol

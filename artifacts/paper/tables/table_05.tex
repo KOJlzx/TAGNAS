@@ -1,0 +1,23 @@
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrr rrr rrr rrr rrr rrr@{}}
+\toprule
+& \multicolumn{3}{c}{\textbf{T-REx}} & \multicolumn{3}{c}{\textbf{PubMed}} & \multicolumn{3}{c}{\textbf{Twitter}} & \multicolumn{3}{c}{\textbf{Citation}} & \multicolumn{3}{c}{\textbf{Amazon-Baby}} & \multicolumn{3}{c@{}}{\textbf{Reddit}}\\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}\cmidrule(lr){11-13}\cmidrule(lr){14-16}\cmidrule(l){17-19}
+\textbf{Sys} & Tm & Sp & AU & Tm & Sp & AU & Tm & Sp & AU & Tm & Sp & AU & Tm & Sp & AU & Tm & Sp & AU\\
+\midrule
+\multicolumn{19}{c}{\textit{DistilGPT-2 text encoder}}\\
+\midrule
+B1 & 1983 & 0.7 & .898 & 1868 & 0.8 & .875 & 436 & 2.6 & .535 & 24300 & 0.9 & .943 & 17131 & 0.9 & .540 & 5791 & 0.7 & .682\\
+B2 & 1475 & 1.0 & .963 & 1511 & 1.0 & \underline{.962} & 1155 & 1.0 & .535 & 21860 & 1.0 & \underline{.958} & 15556 & 1.0 & .671 & 3838 & 1.0 & .689\\
+B3 & 675 & 2.2 & \underline{.966} & 567 & 2.7 & .859 & 392 & 2.9 & .542 & 18933 & 1.2 & .954 & 16576 & 0.9 & .669 & 4011 & 1.0 & \underline{.711}\\
+B4 & 730 & 2.0 & .853 & 737 & 2.1 & .932 & 1178 & 1.0 & .524 & 4979 & 4.4 & .841 & 2527 & 6.2 & .611 & 806 & 4.8 & .642\\
+\texttt{TAGNAS} & \textbf{241} & \textbf{6.1} & \underline{.966} & \textbf{402} & \textbf{3.8} & \underline{.962} & \textbf{152} & \textbf{7.6} & \underline{.560} & \textbf{833} & \textbf{26.2} & .954 & \textbf{376} & \textbf{41.4} & \underline{.689} & \textbf{263} & \textbf{14.6} & .671\\
+\midrule
+\multicolumn{19}{c}{\textit{LinkBERT text encoder}}\\
+\midrule
+B1 & 2819 & 0.6 & .879 & 1043 & 1.7 & .675 & 2219 & 0.7 & .543 & 22356 & 0.9 & .912 & 19256 & 0.9 & .536 & 6783 & 1.3 & .677\\
+B2 & 1592 & 1.0 & .915 & 1732 & 1.0 & \underline{.992} & 1595 & 1.0 & \underline{.585} & 19587 & 1.0 & \underline{.930} & 16403 & 1.0 & .569 & 9048 & 1.0 & .692\\
+B3 & 1312 & 1.2 & .859 & 1054 & 1.6 & .877 & 2114 & 0.8 & .577 & 16111 & 1.2 & .922 & 18111 & 0.9 & .601 & 6224 & 1.5 & \underline{.709}\\
+B4 & 732 & 2.2 & .885 & 874 & 2.0 & .952 & 796 & 2.0 & .533 & 5660 & 3.5 & .891 & 1849 & 8.9 & .614 & 751 & 12.0 & .653\\
+\texttt{TAGNAS} & \textbf{326} & \textbf{4.9} & \underline{.962} & \textbf{477} & \textbf{3.6} & \underline{.992} & \textbf{155} & \textbf{10.3} & .546 & \textbf{857} & \textbf{22.9} & .903 & \textbf{443} & \textbf{37.0} & \underline{.723} & \textbf{347} & \textbf{26.1} & .708\\
+\bottomrule
+\end{tabular*}
